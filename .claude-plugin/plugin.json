@@ -1,0 +1,6 @@
+{
+  "name": "notail",
+  "version": "0.1.0",
+  "description": "Blocks piping Bash output through `tail`/`head` so Claude can't accidentally truncate errors before reading them.",
+  "homepage": "https://github.com/freQuensy23-coder/notails"
+}
