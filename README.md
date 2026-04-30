@@ -26,7 +26,7 @@ When blocked, the hook exits with code 2 and prints a stderr message suggesting 
 
 ```text
 /plugin marketplace add freQuensy23-coder/notails
-/plugin install notail
+/plugin install notail@notails
 ```
 
 After install the hook activates automatically — no `settings.json` edits needed.

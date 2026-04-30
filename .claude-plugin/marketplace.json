@@ -1,0 +1,17 @@
+{
+  "name": "notails",
+  "owner": {
+    "name": "freQuensy23-coder"
+  },
+  "description": "Hooks that keep Claude Code's Bash output honest.",
+  "plugins": [
+    {
+      "name": "notail",
+      "source": "./",
+      "description": "Blocks piping Bash output through `tail`/`head` so errors aren't silently truncated.",
+      "homepage": "https://github.com/freQuensy23-coder/notails",
+      "license": "MIT",
+      "category": "safety"
+    }
+  ]
+}
