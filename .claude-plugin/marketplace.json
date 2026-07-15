@@ -8,7 +8,7 @@
     {
       "name": "notail",
       "source": "./",
-      "description": "Blocks piping Bash output through `tail`/`head` so errors aren't silently truncated.",
+      "description": "Blocks piping a script/program/network call's output into `tail`/`head`/`grep` so errors aren't silently truncated or filtered.",
       "homepage": "https://github.com/freQuensy23-coder/notails",
       "license": "MIT",
       "category": "safety"

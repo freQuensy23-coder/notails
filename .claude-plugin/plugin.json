@@ -1,6 +1,6 @@
 {
   "name": "notail",
-  "version": "0.1.0",
-  "description": "Blocks piping Bash output through `tail`/`head` so Claude can't accidentally truncate errors before reading them.",
+  "version": "0.2.0",
+  "description": "Blocks piping a script/program/network call's output into `tail`/`head`/`grep` so Claude can't silently truncate or filter errors before reading them. File readers (cat, grep, sed, find, git, …) may still pipe into those.",
   "homepage": "https://github.com/freQuensy23-coder/notails"
 }

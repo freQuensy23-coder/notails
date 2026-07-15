@@ -1,6 +1,6 @@
 # NoTail
 
-A Claude Code plugin that blocks `... | tail` and `... | head` in Bash commands so Claude can't silently truncate errors before reading them.
+A Claude Code plugin that blocks piping a script/program/network call's output into `tail`, `head`, or `grep` so Claude can't silently truncate or filter errors before reading them. Plain file readers and text utilities (cat, grep, sed, sort, find, git, …) may still pipe into those.
 
 ## Why
 
@@ -10,17 +10,21 @@ The Claude Code Bash tool already persists large outputs to a file, so up-front 
 
 ## What it blocks
 
-Only the pipe form is blocked:
+A command is blocked only when a **dangerous producer** (a script, program, or network call whose output may contain errors or logs) is piped into `tail`, `head`, or `grep`. Piping a **safe reader** (cat, grep, sed, sort, find, git, tee, …) into those is allowed. Anything not on the safe list is treated as dangerous (fail-closed).
 
-| Command | Blocked? |
-| --- | --- |
-| `npm test \| tail -20` | yes |
-| `mvn install 2>&1 \| head -50` | yes |
-| `tail -f /var/log/foo` | no — legitimate streaming |
-| `head README.md` | no — legitimate file read |
-| `tail /tmp/build.log` | no — reading a file is fine |
+| Command | Blocked? | Why |
+| --- | --- | --- |
+| `npm test \| tail -20` | yes | program output truncated |
+| `python script.py \| grep ERROR` | yes | program output filtered |
+| `curl https://x.com \| tail` | yes | network output truncated |
+| `./build.sh \| head` | yes | script output truncated |
+| `cat config.json \| grep host` | no | file reader -> grep |
+| `git log --oneline \| tail -20` | no | VCS read -> tail |
+| `find . -name "*.py" \| head` | no | filesystem read -> head |
+| `tail -f /var/log/foo` | no | not a pipe at all |
+| `head README.md` | no | legitimate file read |
 
-When blocked, the hook exits with code 2 and prints a stderr message suggesting the redirect-then-inspect pattern.
+When blocked, the hook exits with code 2 and prints a stderr message suggesting the capture-then-inspect pattern.
 
 ## Install (Claude Code marketplace)
 
@@ -53,7 +57,7 @@ If you don't want a marketplace install, copy the hook directly into your user s
 
 ## Requirements
 
-- `jq` on `PATH`. If it's missing, the hook fails open (allows the command) and prints a one-line warning so it never blocks Bash entirely.
+- `python3` on `PATH`. If it's missing, the hook fails open (allows the command) and prints a one-line warning so it never blocks Bash entirely.
 
 ## License
 
